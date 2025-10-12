@@ -2,7 +2,8 @@ import { createBrowserRouter } from "react-router";
 import MusicPlayerPage from "../Pages/MusicPlayerPage";
 import SearchPage from "../Pages/SearchPage";
 import SignUpPage from "../Pages/SignUpPage";
-import MusicPlayerPage from "../Pages/MusicPlayerPage";
+import NotFoundPage from "../Pages/NotFoundPage";
+
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: "/music-player",
     element: <MusicPlayerPage />,
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
   }
 ]);
 

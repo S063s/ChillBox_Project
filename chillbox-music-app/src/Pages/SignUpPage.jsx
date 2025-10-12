@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { link , usenavigate} from "react-router-dom";
 
 
 function SignUpPage() {

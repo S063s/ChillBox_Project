@@ -1,5 +1,6 @@
 import { useState , useEffect } from "react";
 import axios from "axios";
+import link , { useNavigate } from "react-router-dom";
 
 function SearchPage() {
   const [query, setQuery] = useState("");
