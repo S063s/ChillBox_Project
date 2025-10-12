@@ -8,7 +8,7 @@ function SearchPage() {
   useEffect(() => {
     const fetchResults = async () => {
       if (query) {
-        const response = await axios.get(`/api/search?q=${query}`);
+        const response = await axios.get(`https://api.deezer.com/search?q=${query}`);
         setResults(response.data);
       }
     };

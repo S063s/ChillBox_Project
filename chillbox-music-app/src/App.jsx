@@ -2,28 +2,14 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import{ createBrowserRouter , RouterProvider } from 'react-router';
-import SignUpPage from './Pages/SignUpPage.jsx';
-import SearchPage from './Pages/SearchPage.jsx';
+import router from './router/router.jsx'
 
-const router = createBrowserRouter([
-  {
-    path: "/signup",
-    element: <SignUpPage />,
-  },
-  {
-    path: "/search",
-    element: <SearchPage />,
-  },
-  {
-    path: "*",
-    element: <NotFoundPage />,
-  }
-]);
 
 function App() {
-  return(
-    <RouterProvider router={router} />
+  return (
+    <div>
+      {/* You can render your router or other components here */}
+    </div>
   );
 }
 
