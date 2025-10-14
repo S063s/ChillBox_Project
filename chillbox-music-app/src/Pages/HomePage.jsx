@@ -14,7 +14,7 @@ function HomePage() {
     return (
         <div className="home-page">
             <header className="header">
-                <h1>Welcome Back, {userName}!</h1>
+                <h1 className="flex flex-row p-8 text-3xl font-bold">Welcome Back, {userName}!</h1>
                 <nav className="nav">
                     <ul>
                         {Object.entries(navItems).map(([key, { path, label }]) => (
