@@ -1,49 +1,74 @@
 import { useState } from "react";
-import { link , usenavigate} from "react-router-dom";
-
+import React from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function SignUpPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const useNavigate = useNavigate();
+  const { email, setEmail } = useState("");
+  const { password, setPassword } = useState("");
+  const { confirmPassword, setConfirmPassword } = useState("");
+  const { error, setError } = useState("");
+  const { success, setSuccess } = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null)
 
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long");
+
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    try {
+      const response = await axios.post("/api/signup", {
+        email,
+        password,
+      });
+      setSuccess("Account created successfully");
+      navigate("/login");
+    } catch (error) {
+      setError("Failed to create account");
+    }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-3xl font-bold mb-4">Sign Up</h1>
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md">
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-            Email
-          </label>
+    <div>
+      <h2>Sign Up</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Email:</label>
           <input
             type="email"
-            id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded"
-            required
           />
         </div>
-        <div className="mb-4">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-            Password
-          </label>
+        <div>
+          <label>Password:</label>
           <input
             type="password"
-            id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded"
-            required
           />
         </div>
-        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">
-          Sign Up
-        </button>
+        <div>
+          <label>Confirm Password:</label>
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </div>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        {success && <p style={{ color: "green" }}>{success}</p>}
+        <button type="submit">Sign Up</button>
       </form>
     </div>
   );
