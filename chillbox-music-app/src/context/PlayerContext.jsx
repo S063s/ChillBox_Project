@@ -4,7 +4,7 @@ import axios from "axios";
 const PlayerContext = createContext();
 const API_URL = "https://api.deezer.com/track/";
 
-export function usePlayer() {
+export function PlayerProvider({ children }) {
     const audioRef = useRef(new Audio());
     const [currentTrack, setCurrentTrack] = useState(null);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -56,8 +56,8 @@ export function usePlayer() {
    );
 }
 
-export const usePlayerContext = () => {
-   return useContext(PlayerContext);
-};
+export function usePlayerContext() {
+    return useContext(PlayerContext);
+}
 
 export default PlayerContext;
