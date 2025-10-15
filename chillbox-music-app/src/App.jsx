@@ -9,6 +9,7 @@ import HomePage from './Pages/HomePage.jsx'
 import SignUpPage from './Pages/SignUpPage.jsx'
 import SearchPage from './Pages/SearchPage.jsx'
 import MusicPlayerPage from './Pages/MusicPlayerPage.jsx'
+import Footer from './components/Footer.jsx'
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/player" element={<MusicPlayerPage />} />
         </Routes>
       </Layout>
+      <Footer />
     </PlayerProvider>
   );
 }

@@ -1,8 +1,8 @@
-import usePlayer from '../context/PlayerContext.jsx';
+import { usePlayer } from '../context/PlayerContext';
 import NowPlayingDetails from '../components/NowPlayingDetails.jsx';
 
 function MusicPlayerPage() {
-  const { currentTrack, isPlaying, play, pause } = usePlayer();
+  const { currentTrack, isPlaying, playTrack, pauseTrack } = usePlayer();
 
   return (
     <div className="p-4">

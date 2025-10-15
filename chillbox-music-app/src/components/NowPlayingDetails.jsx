@@ -1,4 +1,4 @@
-import usePlayer from '../context/PlayerContext.jsx';
+import { usePlayer } from '../context/PlayerContext';
 
 function NowPlayingDetails() {
     const { currentTrack , isPlaying , togglePlayPause } = usePlayer();

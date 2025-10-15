@@ -2,7 +2,7 @@ import { useState , useEffect } from "react";
 import React from "react";
 import axios from "axios";
 import TrackCard from "../components/TrackCard.jsx";
-import usePlayer from '../context/PlayerContext.jsx';
+import { usePlayer } from '../context/PlayerContext';
 import SearchBar from '../components/SearchBar.jsx';
 
 const API_URL = "https://api.deezer.com/search";
