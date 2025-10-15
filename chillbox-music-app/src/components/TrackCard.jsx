@@ -1,8 +1,8 @@
 import React from "react";
 
-function TrackCard({ track , onPlayTrack }) {
+function TrackCard({ track = {}, onPlayTrack }) {
     const handlePlay = () => {
-        if (onPlayTrack) {
+        if (onPlayTrack && track.id) {
             onPlayTrack(track.id);
         }
     }

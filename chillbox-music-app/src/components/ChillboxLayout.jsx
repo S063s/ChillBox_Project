@@ -1,13 +1,17 @@
-import React from "react";
-import MusicControlBar from "./MusicControlBar";
+import Header from './Header.jsx'
+import BottomNav from './BottomNav.jsx'
 
-function Layout({ children }) {
-    return (
-        <div className="flex flex-col h-screen justify-between bg-gray-100">
-            <main className="flex-shrink">{children}</main>
-            <MusicControlBar />
-        </div>
-    );
+
+function ChillboxLayout({ children }) {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-grow container mx-auto px-4 py-6">
+        {children}
+      </main>
+      <BottomNav />
+    </div>
+  );
 }
 
-export default Layout;
+export default ChillboxLayout;

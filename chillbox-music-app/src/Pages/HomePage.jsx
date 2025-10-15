@@ -1,32 +1,24 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
-
-const navItems = {
-   search: { path: "/", label: "Search" },
-   library: { path: "/library", label: "Library" }
-};
+import WelcomeBanner from '../components/WelcomeBanner.jsx'
+import SectionTabs from '../components/SectionTabs.jsx'
+import TrackCard from '../components/TrackCard.jsx'
+import MusicControlBar from '../components/MusicControlBar'
+import NowPlayingDetails from '../components/NowPlayingDetails.jsx'
 
 
 function HomePage() {
-    const location = useLocation();
-    const userName = "User"; 
-
-    return (
-        <div className="home-page">
-            <header className="header">
-                <h1 className="flex flex-row p-8 text-3xl font-bold">Welcome Back, {userName}!</h1>
-                <nav className="nav">
-                    <ul>
-                        {Object.entries(navItems).map(([key, { path, label }]) => (
-                            <li key={key} className={location.pathname === path ? "active" : ""}>
-                                <Link to={path}>{label}</Link>
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
-            </header>
-        </div>
-    );
+  return (
+    <div className="p-4">
+      <WelcomeBanner />
+      <SectionTabs />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <TrackCard />
+        <TrackCard />
+        <TrackCard />
+      </div>
+      <MusicControlBar />
+      <NowPlayingDetails />
+    </div>
+  );
 }
 
 export default HomePage;
