@@ -4,6 +4,8 @@ import axios from "axios";
 import TrackCard from "../components/TrackCard.jsx";
 import { usePlayer } from '../context/PlayerContext';
 import SearchBar from '../components/SearchBar.jsx';
+import { Link } from "react-router-dom";
+
 
 const API_URL = "https://api.deezer.com/search";
 

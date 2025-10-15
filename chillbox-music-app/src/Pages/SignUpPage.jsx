@@ -1,15 +1,17 @@
 import { useState } from "react";
 import React from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
+
 function SignUpPage() {
-  const useNavigate = useNavigate();
-  const { email, setEmail } = useState("");
-  const { password, setPassword } = useState("");
-  const { confirmPassword, setConfirmPassword } = useState("");
-  const { error, setError } = useState("");
-  const { success, setSuccess } = useState("");
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
