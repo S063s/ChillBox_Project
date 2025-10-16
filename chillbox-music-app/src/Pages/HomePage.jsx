@@ -4,11 +4,9 @@ import TrackCard from '../components/TrackCard.jsx'
 import MusicControlBar from '../components/MusicControlBar'
 import NowPlayingDetails from '../components/NowPlayingDetails.jsx'
 import AlbumGrid from '../components/AlbumGrid.jsx'
-import MusicPlayer from '../components/MusicPlayer.jsx'
-import BottomNav from '../components/BottomNav.jsx'
 import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar.jsx'
-
+import Footer from '../components/Footer.jsx'
 
 
 function HomePage() {
@@ -25,8 +23,7 @@ function HomePage() {
       <MusicControlBar />
       <NowPlayingDetails />
       <AlbumGrid />
-      <MusicPlayer />
-      <BottomNav />
+      <Footer />
     </div>
   );
 }

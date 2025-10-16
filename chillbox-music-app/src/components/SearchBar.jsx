@@ -17,7 +17,7 @@ function SearchBar() {
         const fetchResults = async () => {
             if (query) {
                 try {
-                    const response = await axios.get(`https://api.deezer.com/search?q=${query}`);
+                    const response = await axios.get(`fetch('/api/deezer/search?q=${query}')`);
                     setResults(response.data.data || []);
                 } catch (error) {
                     setResults([]);
@@ -41,12 +41,13 @@ function SearchBar() {
     };
 
     return (
-        <div className="search-bar">
+        <div className="search-bar flex justify-center mb-4 bg-gray-200 p-2 rounded text-black ">
             <input
                 type="text"
                 value={searchInput}
                 onChange={handleInputChange}
-                placeholder="Search..."
+                placeholder="Search for songs, artists, albums..."
+                className="w-3/4 p-2 rounded"
             />
             <button onClick={handleSearch}>Search</button>
         </div>

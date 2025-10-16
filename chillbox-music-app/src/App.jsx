@@ -8,7 +8,6 @@ import { Route , Routes } from 'react-router-dom'
 import HomePage from './Pages/HomePage.jsx'
 import SignUpPage from './Pages/SignUpPage.jsx'
 import SearchPage from './Pages/SearchPage.jsx'
-import MusicPlayerPage from './Pages/MusicPlayerPage.jsx'
 
 
 function App() {
@@ -19,7 +18,6 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/search" element={<SearchPage />} />
-          <Route path="/player" element={<MusicPlayerPage />} />
         </Routes>
       </ChillboxLayout>
     </PlayerProvider>

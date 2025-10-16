@@ -1,125 +1,121 @@
-import { createContext , useContext , useState , useRef , useEffect } from "react";
-
+import { createContext, useContext, useEffect, useRef, useState } from "react";
+import axios from "axios";
 
 const PlayerContext = createContext();
-
-export function usePlayer() {
-    return useContext(PlayerContext);
-}
+export const usePlayer = () => useContext(PlayerContext);
 
 export function PlayerProvider({ children }) {
     const audioRef = useRef(new Audio());
     const [currentTrack, setCurrentTrack] = useState(null);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [trackList, setTrackList] = useState([]);
-    const [currentIndex, setCurrentIndex] = useState(-1);
+    const [progress, setProgress] = useState(0);
+    const [duration, setDuration] = useState(0);
+    const [queue, setQueue] = useState([]);
+    const [volume, setVolume] = useState(1.0);
 
-    const playTrack = (track) => {
-        if (currentTrack?.id !== track.id) {
-            setCurrentTrack(track);
-            audioRef.current.src = track.preview;
-        }
-    };
-
-    const togglePlayPause = () => {
-        if (isPlaying) {
-            pauseTrack();
-        } else {
-            playTrack(currentTrack);
-        }
-    };
-
-    const handleSeek = (time) => {
-        audioRef.current.currentTime = time;
-    };
-    const handleVolumeChange = (volume) => {
-        audioRef.current.volume = volume;
-    };
-
+    useEffect(() => {
+        const fetchCatalog = async () => {
+            try {
+                const response = await axios.get("fetch('/api/deezer/genre')");
+            } catch (error) {
+                console.error("Error fetching catalog:", error);
+            }
+        };
+        fetchCatalog();
+    }, []);
 
     useEffect(() => {
         const audio = audioRef.current;
-        audio.addEventListener("ended", handleNext);
-        return () => {
-            audio.removeEventListener("ended", handleNext);
+
+        const onTimeUpdate = () => setProgress(audio.currentTime);
+        const onLoadedMeta = () => setDuration(audio.duration || 0);
+        const onEnded = () => {
+            setIsPlaying(false);
+            const index = queue.findIndex(track => track.id === currentTrack?.id);
+            if (index >= 0 && index < queue.length - 1) {
+                playTrack(queue[index + 1]);
+            }
         };
-    }, []);
 
-    const setAudiodata = (track) => {
-        audioRef.current.src = track.preview;
-        audioRef.current.load();
+        audio.addEventListener("timeupdate", onTimeUpdate);
+        audio.addEventListener("loadedmetadata", onLoadedMeta);
+        audio.addEventListener("ended", onEnded);
+
+        return () => {
+            audio.removeEventListener("timeupdate", onTimeUpdate);
+            audio.removeEventListener("loadedmetadata", onLoadedMeta);
+            audio.removeEventListener("ended", onEnded);
+        };
+    }, [queue, currentTrack]);
+
+    useEffect(() => {
+        audioRef.current.volume = volume;
+    }, [volume]);
+
+    function playTrack(track, tracksList = []) {
+        if (!track) return;
+        const audio = audioRef.current;
+        if (tracksList.length) setQueue(tracksList);
+        if (currentTrack?.id === track.id && audio.src) {
+            togglePlay();
+            return;
+        }
+        setCurrentTrack(track);
+        audio.src = track.preview || track.audioUrl || "";
+        audio.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
     }
 
-    const updateTime = () => {
-        return audioRef.current.currentTime;
-    };
-
-    const updateDuration = () => {
-        return audioRef.current.duration;
+    function togglePlay() {
+        const audio = audioRef.current;
+        if (!audio.src) return;
+        if (isPlaying) {
+            audio.pause();
+            setIsPlaying(false);
+        } else {
+            audio.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
+        }
     }
 
-    const getAudioElement = () => {
-        return audioRef.current;
+    function seekTo(seconds) {
+        const audio = audioRef.current;
+        if (!audio.src) return;
+        audio.currentTime = seconds;
+        setProgress(seconds);
     }
-    const loadAndPlayTrack = async (trackId) => {
-        try {
-            const response = await fetch(`https://api.deezer.com/track/${trackId}`);
-            const trackData = await response.json();
-            setCurrentTrack(trackData);
-            setAudiodata(trackData);
-            audioRef.current.play();
-            setIsPlaying(true);
+
+    function playNext() {
+        const index = queue.findIndex(t => t.id === currentTrack?.id);
+        if (index >= 0 && index < queue.length - 1) {
+            playTrack(queue[index + 1], queue);
         }
-        catch (error) {
-            console.error("Error loading track:", error);
+    }
+
+    function playPrev() {
+        const index = queue.findIndex(t => t.id === currentTrack?.id);
+        if (index > 0) {
+            playTrack(queue[index - 1], queue);
+        } else {
+            seekTo(0);
         }
-    };
-
-    const playNext = () => {
-        if (currentIndex < trackList.length - 1) {
-            const nextIndex = currentIndex + 1;
-            const nextTrack = trackList[nextIndex];
-            setCurrentIndex(nextIndex);
-            loadAndPlayTrack(nextTrack.id);
-        }
-    };
-
-    const playPrevious = () => {
-        if (currentIndex > 0) {
-            const prevIndex = currentIndex - 1;
-            const prevTrack = trackList[prevIndex];
-            setCurrentIndex(prevIndex);
-            loadAndPlayTrack(prevTrack.id);
-        }
-    };
-
-    const handleNext = () => {
-        playNext();
-    };
-
-    const pauseTrack = () => {
-        audioRef.current.pause();
-        setIsPlaying(false);
-    };
-
-    const ContextValue = {
-        currentTrack,
-        isPlaying,
-        playTrack,
-        pauseTrack,
-        togglePlayPause,
-        handleSeek,
-        handleVolumeChange,
-        updateTime,
-        updateDuration,
-        getAudioElement,
-        loadAndPlayTrack,
-        playNext,
-        playPrevious
-    };
+    }
 
     return (
-        <PlayerContext.Provider value={ContextValue}>
+        <PlayerContext.Provider
+            value={{
+                currentTrack,
+                isPlaying,
+                progress,
+                duration,
+                playTrack,
+                togglePlay,
+                seekTo,
+                playNext,
+                playPrev,
+                setQueue,
+                volume,
+                setVolume,
+            }}
+        >
             {children}
         </PlayerContext.Provider>
     );

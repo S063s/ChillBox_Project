@@ -1,27 +1,36 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+// src/components/Navbar.jsx
+import React from 'react';
+import { Link } from 'react-router-dom'; // Assuming you'll use react-router for navigation
 
-export default function NavBar() {
-  const location = useLocation(); 
+const navItems = [
+  { name: 'Home', path: '/' },
+  { name: 'Search', path: '/search' },
+  { name: 'SignIn', path: '/signup' },
+  { name: 'Library', path: '/library' },
+  
+];
 
-  const linkClass = (path) =>
-    `px-3 py-2 rounded ${
-      location.pathname === path
-        ? "bg-purple-600 text-white"
-        : "text-gray-700 hover:text-white-600"
-    }`;
-
-  return (
-    <nav className="w-full bg-none shadow-none px-2 flex left gap-6">
-      <Link to="/" className={linkClass("/")}>
-        Home
-      </Link>
-      <Link to="/search" className={linkClass("/search")}>
-        Search
-      </Link>
-      <Link to="/signup" className={linkClass("/signup")}>
-        Sign Up
-      </Link>
-    </nav>
-  );
+function Navbar({ userName }) {
+    return (
+        <nav className="flex items-center justify-between p-1 pr-2 rounded-full bg-purple-800 shadow-xl max-w-2xl mx-auto my-4">
+            <Link to="/" className="flex items-center justify-center w-10 h-10 rounded-full bg-purple-600 text-black text-xl font-bold mr-2">
+            </Link>
+            <div className="flex space-x-4 text-white text-sm font-semibold">
+                {navItems.map((item) => (
+                    <Link 
+                        key={item.name} 
+                        to={item.path} 
+                        className="px-3 py-2 rounded-full transition duration-200 hover:bg-gray-700"
+                    >
+                        {item.name}
+                    </Link>
+                ))}
+            </div>
+            <div className="ml-auto px-4 py-2 bg-white text-black text-sm font-medium rounded-full">
+                {userName}
+            </div>
+        </nav>
+    );
 }
+
+export default Navbar;

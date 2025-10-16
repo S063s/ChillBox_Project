@@ -41,10 +41,10 @@ function SignUpPage() {
   };
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="flex justify-center mb-4 bg-gray-200 p-2 rounded text-black">
           <label>Email:</label>
           <input
             type="email"
@@ -52,7 +52,7 @@ function SignUpPage() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div>
+        <div className="flex justify-center mb-4 bg-gray-200 p-2 rounded text-black">
           <label>Password:</label>
           <input
             type="password"
@@ -60,7 +60,7 @@ function SignUpPage() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <div>
+        <div className="flex justify-center mb-4 bg-gray-200 p-2 rounded text-black">
           <label>Confirm Password:</label>
           <input
             type="password"
@@ -70,7 +70,8 @@ function SignUpPage() {
         </div>
         {error && <p style={{ color: "red" }}>{error}</p>}
         {success && <p style={{ color: "green" }}>{success}</p>}
-        <button type="submit">Sign Up</button>
+        <button onClick={handleSubmit}>Sign Up</button>
+        <p className="cursor-pointer">Already have an account?  <Link to="/" className="hover:text-gray-200">Home</Link></p>
       </form>
     </div>
   );

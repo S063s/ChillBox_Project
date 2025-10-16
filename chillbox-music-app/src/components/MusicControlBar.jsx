@@ -6,6 +6,7 @@ const formatTime = (timeInSeconds) => {
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = Math.floor(timeInSeconds % 60);
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
 };
 
 function MusicControlBar() {
@@ -23,9 +24,8 @@ function MusicControlBar() {
 
     const Tracktitle = currentTrack ? currentTrack.title : "No track selected";
     const Trackartist = currentTrack ? currentTrack.artist : "Unknown Artist";
-    const Trackalbum = currentTrack ? currentTrack.album : "Unknown Album";
 
-    const coverArtSrc = currentTrack ? currentTrack.preview : '';
+    const coverArtSrc = currentTrack ? currentTrack.preview : 'no-cover-art.png';
 
     const handleSeek = (event) => {
         seekTrack(parseFloat(event.target.value));
