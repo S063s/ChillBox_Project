@@ -1,5 +1,4 @@
 import Header from './Header.jsx'
-import BottomNav from './BottomNav.jsx'
 import React from 'react';
 
 function ChillboxLayout({ children }) {
@@ -9,7 +8,6 @@ function ChillboxLayout({ children }) {
       <main className="flex-grow container mx-auto px-4 py-6 w-full">
         {children}
       </main>
-      <BottomNav />
     </div>
   );
 }
