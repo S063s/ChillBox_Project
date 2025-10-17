@@ -15,7 +15,12 @@ function SignUpPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null)
+    setError(null);
+
+    if (email.trim() === "" || password.trim() === "" || confirmPassword.trim() === "") {
+      setError("All fields are required");
+      return;
+    }
 
     if (password.length < 6) {
       setError("Password must be at least 6 characters long");

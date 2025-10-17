@@ -7,6 +7,7 @@ import AlbumGrid from '../components/AlbumGrid.jsx'
 import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar.jsx'
 import Footer from '../components/Footer.jsx'
+import LibraryPage from './LibraryPage.jsx'
 
 
 function HomePage() {
@@ -22,6 +23,7 @@ function HomePage() {
       </div>
       <MusicControlBar />
       <NowPlayingDetails />
+      <LibraryPage />
       <AlbumGrid />
       <Footer />
     </div>

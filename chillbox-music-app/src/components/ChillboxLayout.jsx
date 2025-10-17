@@ -2,14 +2,16 @@ import Header from './Header.jsx'
 import React from 'react';
 
 function ChillboxLayout({ children }) {
-  return (
- <div className="min-h-screen bg-gradient-to-b from-purple-700 to-purple-900 flex flex-col items-center text-white">
-    <Header />
-      <main className="flex-grow container mx-auto px-4 py-6 w-full">
+return (
+  <div>
+    <div className="min-h-screen bg-gradient-to-b from-purple-700 to-purple-900 flex flex-col items-center text-white">
+      <Header />
+      <main className="flex-grow container mx-auto px-4 py-6 w-full lg">
         {children}
       </main>
     </div>
-  );
+  </div>
+);
 }
 
 export default ChillboxLayout;

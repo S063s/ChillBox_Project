@@ -60,6 +60,7 @@ export function PlayerProvider({ children }) {
         setVolume(newVolume);
         audioRef.current.volume = newVolume;
     }
+    
 
     function playTrack(track, tracksList = []) {
         if (!track) return;

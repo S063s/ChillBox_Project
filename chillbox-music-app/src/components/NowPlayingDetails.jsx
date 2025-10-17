@@ -2,7 +2,9 @@ import React from "react";
 import { usePlayer } from "../context/PlayerContext";
 
 function formatTime(sec = 0) {
-  if (!sec || isNaN(sec)) return "0:00";
+  if (!sec || isNaN(sec)) {
+    return "0:00";
+  }
   const m = Math.floor(sec / 60);
   const s = Math.floor(sec % 60).toString().padStart(2, "0");
   return `${m}:${s}`;
@@ -23,7 +25,7 @@ export default function NowPlayingDetails() {
   return (
     <div className="flex gap-4 items-center text-white mb-4">
       <img
-        src={currentTrack.album?.cover_medium || currentTrack.cover || "https://via.placeholder.com/150"}
+        src={currentTrack.album?.cover_medium || currentTrack.cover || "https://preludepress.com/wp-content/uploads/2020/09/Tems-Damages.webp"}
         alt={currentTrack.title}
         className="w-28 h-28 rounded-lg object-cover"
       />

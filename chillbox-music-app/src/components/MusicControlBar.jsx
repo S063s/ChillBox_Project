@@ -55,7 +55,7 @@ function MusicControlBar() {
                     max="1"
                     step="0.01"
                     value={volume}
-                    onChange={handleVolumeChange}
+                    onChange={ handleVolumeChange}
                     className="w-24 h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer"
                 />
             </div>
