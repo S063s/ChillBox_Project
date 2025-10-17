@@ -1,86 +1,53 @@
 import React from "react";
-import { usePlayer } from "../context/PlayerContext";
-
-const formatTime = (timeInSeconds) => {
-    if (isNaN(timeInSeconds) || timeInSeconds < 0) return "0:00";
-    const minutes = Math.floor(timeInSeconds / 60);
-    const seconds = Math.floor(timeInSeconds % 60);
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-
-};
+import { usePlayer } from "../context/PlayerContext"; 
 
 function MusicControlBar() {
-    const {
-        currentTrack,
-        isPlaying,
-        playTrack,
-        pauseTrack,
-        seekTrack,
-        setVolume,
-        volume,
-        duration,
-        currentTime
+    const { 
+        currentTrack, isPlaying, togglePlayPause, 
+        currentTime, duration, handleSeek, volume, handleVolumeChange
     } = usePlayer();
 
-    const Tracktitle = currentTrack ? currentTrack.title : "No track selected";
-    const Trackartist = currentTrack ? currentTrack.artist : "Unknown Artist";
+    const formatTime = (time) => {
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor(time % 60);
+        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    }
 
-    const coverArtSrc = currentTrack ? currentTrack.preview : 'no-cover-art.png';
-
-    const handleSeek = (event) => {
-        seekTrack(parseFloat(event.target.value));
-    };
-
-    const handlePlayPause = () => {
-        if (currentTrack) {
-            isPlaying ? pauseTrack() : playTrack();
-        }
-    };
+    const trackTitle = currentTrack?.title || "No track selected";
+    const trackArtist = currentTrack?.artist || "Unknown Artist";
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4 flex flex-col md:flex-row items-center justify-between shadow-lg">
-            <div className="flex items-center w-1/4 min-w-[200px] mb-2 md:mb-0">
-                <img 
-                    src={coverArtSrc} 
-                    alt={`${Tracktitle} cover`} 
-                    className="w-12 h-12 mr-4 object-cover rounded" 
-                />
-                <div className="flex flex-col overflow-hidden whitespace-nowrap">
-                    <span className="font-bold text-sm truncate">{Tracktitle}</span>
-                    <span className="text-xs text-gray-400 truncate">{Trackartist}</span>
-                </div>
+        <div className="bg-gray-800 p-3 flex justify-between items-center w-full shadow-2xl">
+            <div className="flex flex-col w-1/4 truncate">
+                <p className="text-white text-sm font-semibold truncate">{trackTitle}</p>
+                <p className="text-gray-400 text-xs truncate">{trackArtist}</p>
             </div>
-            <div className="flex flex-col items-center w-full md:w-1/2 max-w-xl">
-                <div className="flex justify-center mb-2">
-                    <button 
-                        onClick={handlePlayPause}
-                        className="text-white text-3xl hover:text-green-500 transition-colors disabled:opacity-50"
-                        disabled={!currentTrack}
-                        aria-label={isPlaying ? "Pause" : "Play"}
-                    >
-                        {isPlaying ? (
-                            <i className="fas fa-pause-circle"></i>
-                        ) : (
-                            <i className="fas fa-play-circle"></i>
-                        )}
-                    </button>
-                </div>
-                <div className="flex items-center w-full space-x-2 text-xs">
-                    <span>{formatTime(currentTime)}</span>
+            <div className="flex flex-col items-center w-2/4 px-4">
+                
+                <button 
+                    className="text-white text-xl mb-1 disabled:opacity-50" 
+                    onClick={togglePlayPause} 
+                    disabled={!currentTrack}
+                >
+                    {isPlaying ? '⏸' : '▶'}
+                </button>
+
+                <div className="flex items-center space-x-2 w-full">
+                    <span className="text-xs text-gray-400">{formatTime(currentTime)}</span>
                     <input
                         type="range"
                         min="0"
-                        max={duration || 0} 
-                        step="0.1"
+                        max={duration || 0}
                         value={currentTime}
-                        onChange={handleSeek}
-                        className="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-                        disabled={!currentTrack || !duration}
+                        onChange={(e) => handleSeek(e.target.value)}
+                        className="flex-grow h-1 appearance-none bg-gray-700 rounded-full accent-fuchsia-500 cursor-pointer"
                     />
-                    <span>{formatTime(duration)}</span>
+                    <span className="text-xs text-gray-400">{formatTime(duration)}</span>
                 </div>
             </div>
-            <div className="hidden md:flex items-center w-1/4 justify-end">
+
+            <div className="flex items-center justify-end w-1/4 space-x-2">
+                <div className="hidden md:flex items-center w-1/4 justify-end">
                 <i className="fas fa-volume-up text-lg mr-2"></i>
                 <input
                     type="range"
@@ -88,10 +55,11 @@ function MusicControlBar() {
                     max="1"
                     step="0.01"
                     value={volume}
-                    onChange={(e) => setVolume(parseFloat(e.target.value))}
+                    onChange={handleVolumeChange}
                     className="w-24 h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer"
                 />
             </div>
+        </div>
         </div>
     );
 }

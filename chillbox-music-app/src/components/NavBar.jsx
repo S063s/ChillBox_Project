@@ -1,16 +1,15 @@
-// src/components/Navbar.jsx
 import React from 'react';
-import { Link } from 'react-router-dom'; // Assuming you'll use react-router for navigation
+import { Link } from 'react-router-dom'; 
 
 const navItems = [
   { name: 'Home', path: '/' },
   { name: 'Search', path: '/search' },
   { name: 'SignIn', path: '/signup' },
   { name: 'Library', path: '/library' },
-  
+
 ];
 
-function Navbar({ userName }) {
+function Navbar({ userName = "Shawn" }) {
     return (
         <nav className="flex items-center justify-between p-1 pr-2 rounded-full bg-purple-800 shadow-xl max-w-2xl mx-auto my-4">
             <Link to="/" className="flex items-center justify-center w-10 h-10 rounded-full bg-purple-600 text-black text-xl font-bold mr-2">

@@ -52,6 +52,15 @@ export function PlayerProvider({ children }) {
         audioRef.current.volume = volume;
     }, [volume]);
 
+    function handleVolumeChange(e) {
+        const newVolume = parseFloat(e.target.value);
+        if (audioRef.current) {
+            audioRef.current.volume = newVolume;
+        }
+        setVolume(newVolume);
+        audioRef.current.volume = newVolume;
+    }
+
     function playTrack(track, tracksList = []) {
         if (!track) return;
         const audio = audioRef.current;
@@ -99,6 +108,7 @@ export function PlayerProvider({ children }) {
         }
     }
 
+
     return (
         <PlayerContext.Provider
             value={{
@@ -114,6 +124,7 @@ export function PlayerProvider({ children }) {
                 setQueue,
                 volume,
                 setVolume,
+                handleVolumeChange,
             }}
         >
             {children}
